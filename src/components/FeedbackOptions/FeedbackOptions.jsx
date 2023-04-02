@@ -1,17 +1,9 @@
-import { Component } from 'react';
+// import { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Button } from './FeedbackOptions.styled';
 import { Box } from 'components/Box/Box';
-class FeedbackOptions extends Component {
-  static defaultProps = {
-    options: [],
-  };
-  static propTypes = {
-    options: PropTypes.array.isRequired,
-  };
 
-  render() {
-    const buttons = this.props.options;
+const FeedbackOptions =({options = [], onLeaveFeedback})=> {
     return (
       <Box
         display="flex"
@@ -20,14 +12,13 @@ class FeedbackOptions extends Component {
         my={4}
         width={2}
       >
-        {buttons.map(btn => {
+        {options.map(btn => {
           return (
             <Button
               key={btn}
               type="button"
               value={btn}
-              onClick={event => {
-                this.props.onLeaveFeedback(event);
+              onClick={event => {onLeaveFeedback(event);
               }}
             >
               {btn}
@@ -36,6 +27,10 @@ class FeedbackOptions extends Component {
         })}
       </Box>
     );
-  }
 }
+
+FeedbackOptions.propTypes = {
+  options: PropTypes.arrayOf(PropTypes.string).isRequired,
+};
+
 export default FeedbackOptions;

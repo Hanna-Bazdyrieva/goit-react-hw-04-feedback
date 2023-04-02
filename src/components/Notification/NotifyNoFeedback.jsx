@@ -1,17 +1,10 @@
-import { Component } from 'react';
 import PropTypes from 'prop-types';
 import NotifyHeader from './NotifyNoFeedback.styled';
 
-class NotifyNoFeedback extends Component {
-  static defaultProps = {
-    message: '',
-  };
-  static propTypes = {
-    message: PropTypes.string.isRequired,
-  };
+const NotifyNoFeedback =({message= ''})=> <NotifyHeader>{message}</NotifyHeader>;
 
-  render() {
-    return <NotifyHeader>{this.props.message}</NotifyHeader>;
-  }
-}
+NotifyNoFeedback.propTypes = {
+  message: PropTypes.string.isRequired,
+};
+
 export default NotifyNoFeedback;

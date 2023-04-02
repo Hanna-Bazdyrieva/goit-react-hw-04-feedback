@@ -1,89 +1,83 @@
-import { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Box } from 'components/Box/Box';
 import { StatItem, StatType, StatNumber } from './Statistics.styled';
 
-class Statistics extends Component {
-  static dafaultProps = {
-    stat: {
-      good: 0,
-      neutral: 0,
-      bad: 0,
-    },
-    total: 0,
-    positiveRatio: 0,
-  };
+const Statistics = ({ statistic = { good: 0, neutral: 0, bad: 0 } }) => {
 
-  static propTypes = {
-    stat: PropTypes.object.isRequired,
-    total: PropTypes.number.isRequired,
-    positiveRatio: PropTypes.number.isRequired,
-  };
+  const statArr = Object.entries(statistic);
+  const statValues = Object.values(statistic);
 
-  render() {
-    const stats = Object.entries(this.props.stat);
+  const total = statValues.reduce((prevValue, item) => {
+    return (prevValue += item);
+  }, 0);
 
-    return (
-      <Box display="flex" flexDirection="column">
+  const positiveRatio = Math.round((statistic.good / total) * 100);
+
+  return (
+    <Box display="flex" flexDirection="column">
+      <Box
+        display="flex"
+        justifyContent="space-between"
+        mx="auto"
+        my="0"
+        p={4}
+        width={2}
+      >
+        {statArr.map(statType => {
+          return (
+            <StatItem key={statType[0]} value={statType[0]}>
+              <StatType>{statType[0]}: </StatType>
+              <StatNumber>{statType[1]}</StatNumber>
+            </StatItem>
+          );
+        })}
+      </Box>
+      <Box
+        display="flex"
+        justifyContent="space-between"
+        mx="auto"
+        my="0"
+        p={4}
+        width={2}
+      >
         <Box
+          width={1}
+          bg="analitics"
           display="flex"
-          justifyContent="space-between"
-          mx="auto"
-          my="0"
-          p={4}
-          width={2}
+          flexDirection="column"
+          alignItems="center"
+          px={4}
+          py={3}
+          borderRadius="normal"
+          border="normal"
+          boxShadow="normal"
         >
-          {stats.map(item => {
-            return (
-              <StatItem key={item[0]} value={item[0]}>
-                <StatType>{item[0]}: </StatType>
-                <StatNumber>{item[1]}</StatNumber>
-              </StatItem>
-            );
-          })}
+          <StatType>Total Feedback:</StatType>
+          <StatNumber>{total}</StatNumber>
         </Box>
         <Box
+          Box
+          width={1}
+          bg="analitics"
           display="flex"
-          justifyContent="space-between"
-          mx="auto"
-          my="0"
-          p={4}
-          width={2}
+          flexDirection="column"
+          alignItems="center"
+          px={4}
+          py={3}
+          borderRadius="normal"
+          border="normal"
+          boxShadow="normal"
         >
-          <Box
-            width={1}
-            bg="analitics"
-            display="flex"
-            flexDirection="column"
-            alignItems="center"
-            px={4}
-            py={3}
-            borderRadius="normal"
-            border="normal"
-            boxShadow="normal"
-          >
-            <StatType>Total Feedback:</StatType>
-            <StatNumber>{this.props.total}</StatNumber>
-          </Box>
-          <Box
-            Box
-            width={1}
-            bg="analitics"
-            display="flex"
-            flexDirection="column"
-            alignItems="center"
-            px={4}
-            py={3}
-            borderRadius="normal"
-            border="normal"
-            boxShadow="normal"
-          >
-            <StatType>Positive Ratio :</StatType>
-            <StatNumber>{this.props.positiveRatio}%</StatNumber>
-          </Box>
+          <StatType>Positive Ratio :</StatType>
+          <StatNumber>{positiveRatio}%</StatNumber>
         </Box>
       </Box>
-    );
-  }
-}
+    </Box>
+  );
+};
+
+Statistics.propTypes = {
+  statistic: PropTypes.object.isRequired,
+};
+
 export default Statistics;
